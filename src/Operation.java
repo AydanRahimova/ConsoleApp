@@ -1,6 +1,8 @@
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Operation {
@@ -28,34 +30,54 @@ public class Operation {
         }
     }
 
-    private static ResultSet viewCustomers(Connection connection) {
-        String sql = "SELECT * FROM customer";
-        Statement statement;
-        ResultSet resultSet;
-        try {
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(sql);
-            while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                System.out.println(id + ".Customer:");
-                System.out.println("name:" + resultSet.getString("name"));
-                System.out.println("surname:" + resultSet.getString("surname"));
-                System.out.println("birthday:" + resultSet.getDate("birthday"));
-                System.out.println("position:" + resultSet.getString("position"));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+//    private static ResultSet viewCustomers(Connection connection) {
+//        String sql = "SELECT * FROM customer";
+//        Statement statement;
+//        ResultSet resultSet;
+//        try {
+//            statement = connection.createStatement();
+//            resultSet = statement.executeQuery(sql);
+//            while (resultSet.next()) {
+//                int id = resultSet.getInt("id");
+//                System.out.println(id + ".Customer:");
+//                System.out.println("name:" + resultSet.getString("name"));
+//                System.out.println("surname:" + resultSet.getString("surname"));
+//                System.out.println("birthday:" + resultSet.getDate("birthday"));
+//                System.out.println("position:" + resultSet.getString("position"));
+//            }
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//        return resultSet;
+//    }
+private static List<Customerr> viewCustomers(Connection connection) {
+    String sql = "SELECT * FROM customer";
+    List<Customerr> list = new ArrayList<>();
+    try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+        while (rs.next()) {
+            Customerr customers = new Customerr(rs.getString("name"),
+                    rs.getString("surname"),
+                    rs.getDate("brithday"),
+                    rs.getString("position"));
+            list.add(customers);
+            System.out.println(customers);
         }
-        return resultSet;
+    } catch (SQLException e) {
+        System.out.println("sehvdir");
     }
+    return list;
+}
 
-    private static int addCustomer(Connection connection) {
+
+
+private static int addCustomer(Connection connection) {
         String sql = "INSERT INTO customer (name,surname,birthday,position)values(?,?,?,?)";
         fillCustomer(connection, sql);
         return 1;
     }
 
     private static int updateCustomer(Connection connection) {
+
         System.out.println("Please,enter an id of customer who information you want to update:");
         int id = scanner.nextInt();
         if (checkForExistence(connection, id)) {
