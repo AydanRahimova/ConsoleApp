@@ -25,9 +25,8 @@ public class Main {
             System.out.println("Please enter an operation:" +
                     "\n1-for viewing customers" +
                     "\n2-for adding customer" +
-                    "\n3-for updating new customer" +
-                    "\n4-for removing a customer" +
-                    "\n5-for exit");
+                    "\n3-for updating or removing a customer" +
+                    "\n4-for exit");
             int choice = scanner.nextInt();
             Operation.menu(choice);
         }
