@@ -6,6 +6,9 @@ public class Main {
     static Connection connection;
 
     static {
+//        String url = System.getenv("DB_URL");
+//        String user = System.getenv("DB_USERNAME");
+//        String password = System.getenv("DB_[ASSWORD");
         String url = "jdbc:postgresql://localhost:5432/matrix161";
         String user = "postgres";
         String password = "2810";
@@ -25,7 +28,7 @@ public class Main {
             System.out.println("Please enter an operation:" +
                     "\n1-for viewing customers" +
                     "\n2-for adding customer" +
-                    "\n3-for updating or removing a customer" +
+                    "\n3-for removing a customer" +
                     "\n4-for exit");
             int choice = scanner.nextInt();
             Operation.menu(choice);
